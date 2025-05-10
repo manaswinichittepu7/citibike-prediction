@@ -6,6 +6,7 @@ on:
 jobs:
   run-inference:
     runs-on: ubuntu-latest
+
     steps:
       - name: 📥 Checkout repository
         uses: actions/checkout@v3
@@ -17,10 +18,10 @@ jobs:
 
       - name: 📦 Install dependencies
         run: |
-          pip install pandas joblib
+          pip install pandas joblib lightgbm scikit-learn
 
-      - name: ⬇️ Download model
-        uses: actions/download-artifact@master
+      - name: ⬇️ Download trained model artifact
+        uses: actions/download-artifact@v3.0.2
         with:
           name: trained-model
           path: models
@@ -28,8 +29,8 @@ jobs:
       - name: 🚀 Run Inference Script
         run: python scripts/run_inference.py
 
-      - name: 💾 Upload predictions
-        uses: actions/upload-artifact@v3
+      - name: 📤 Upload predictions
+        uses: actions/upload-artifact@v3.1.2
         with:
           name: predictions
           path: data/predictions.csv
