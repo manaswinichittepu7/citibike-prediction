@@ -21,7 +21,7 @@ jobs:
           pip install pandas joblib lightgbm scikit-learn
 
       - name: ⬇️ Download trained model artifact
-        uses: actions/download-artifact@v3.0.2
+        uses: actions/download-artifact@43c66e034965a65c7aaeb8c7e6a9c41ec6d08c3e
         with:
           name: trained-model
           path: models
