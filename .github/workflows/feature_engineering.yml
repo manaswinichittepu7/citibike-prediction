@@ -9,7 +9,7 @@ jobs:
 
     steps:
       - name: 📥 Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v3.1.2
 
       - name: 🐍 Set up Python
         uses: actions/setup-python@v4
