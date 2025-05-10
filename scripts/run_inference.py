@@ -2,26 +2,25 @@ import pandas as pd
 import joblib
 
 # Load data
-df = pd.read_csv('data/hourly_trip_features_with_28lags.csv')
+data_path = 'data/hourly_trip_features_with_28lags.csv'
+df = pd.read_csv(data_path)
 
-# Drop non-numeric features not used by the model
-df = df.drop(columns=['start_station_name'])
+# Drop unused columns and ensure correct types
+df = df.drop(columns=['start_station_name'], errors='ignore')
+df['hour'] = pd.to_numeric(df['hour'], errors='coerce')  # convert hour to numeric
+df = df.dropna()  # drop rows with any NaNs after conversion
 
-# Fix 'hour' column if it’s object due to bad parsing
-df['hour'] = pd.to_numeric(df['hour'], errors='coerce')
-
-# Drop any rows with NaNs caused by conversion errors
-df = df.dropna()
-
-# Separate features
+# Separate features and load model
 X = df.drop(columns=['trip_count'])
-
-# Load model
 model = joblib.load('models/lgbm_model.pkl')
 
-# Predict
+# Check if X is valid
+if X.empty or len(X.shape) != 2:
+    raise ValueError("Input feature data X is invalid. It must be non-empty and 2D.")
+
+# Make predictions
 y_pred = model.predict(X)
 
 # Save predictions
 df['predicted_trip_count'] = y_pred
-df[['start_station_id', 'hour', 'predicted_trip_count']].to_csv('data/predictions.csv', index=False)
+df.to_csv('data/predictions.csv', index=False)
