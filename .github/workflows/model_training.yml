@@ -1,0 +1,29 @@
+name: Model Training
+
+on:
+  workflow_dispatch:
+
+jobs:
+  train-model:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v3
+
+      - name: 🐍 Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: 📦 Install dependencies
+        run: |
+          pip install pandas lightgbm scikit-learn joblib
+
+      - name: 🚀 Run Training Script
+        run: python scripts/train_model.py
+
+      - name: 💾 Upload model
+        uses: actions/upload-artifact@v3
+        with:
+          name: trained-model
+          path: models/lgbm_model.pkl
