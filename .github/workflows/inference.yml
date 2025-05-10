@@ -20,7 +20,7 @@ jobs:
           pip install pandas joblib
 
       - name: ⬇️ Download model
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@master
         with:
           name: trained-model
           path: models
