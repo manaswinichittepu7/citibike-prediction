@@ -8,10 +8,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: 📥 Checkout repository
+      - name: 📥 Checkout code
         uses: actions/checkout@v3
 
-      - name: 🐍 Set up Python
+      - name: 🐍 Setup Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.10'
@@ -20,17 +20,15 @@ jobs:
         run: |
           pip install pandas joblib lightgbm scikit-learn
 
-      - name: ⬇️ Download trained model artifact
-        uses: actions/download-artifact@master
-        with:
-          name: trained-model
-          path: models
+      - name: ⬇️ Download trained model manually
+        run: |
+          mkdir -p models
+          curl -o models/lgbm_model.pkl https://your-file-hosting.com/lgbm_model.pkl
+          # 👆 Use HuggingFace, DAGsHub, or any public link
 
-      - name: 🚀 Run Inference Script
+      - name: 🚀 Run Inference
         run: python scripts/run_inference.py
 
-      - name: 📤 Upload predictions
-        uses: actions/upload-artifact@v3.1.2
-        with:
-          name: predictions
-          path: data/predictions.csv
+      - name: 📦 Zip predictions
+        run: |
+          zip -r prediction_output.zip data/predictions.csv
