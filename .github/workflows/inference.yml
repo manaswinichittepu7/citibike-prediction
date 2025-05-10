@@ -20,12 +20,6 @@ jobs:
         run: |
           pip install pandas joblib lightgbm scikit-learn
 
-      - name: ⬇️ Download trained model manually
-        run: |
-          mkdir -p models
-          curl -o models/lgbm_model.pkl https://your-file-hosting.com/lgbm_model.pkl
-          # 👆 Use HuggingFace, DAGsHub, or any public link
-
       - name: 🚀 Run Inference
         run: python scripts/run_inference.py
 
