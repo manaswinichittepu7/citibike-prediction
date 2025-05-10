@@ -25,7 +25,7 @@ jobs:
         run: python scripts/feature_engineering.py
 
       - name: 💾 Upload output
-        uses: actions/upload-artifact@v3  # ← Fixed version
+        uses: actions/upload-artifact@master # ← Fixed version
         with:
           name: engineered-features
           path: data/hourly_trip_features_with_28lags.csv
